@@ -1,0 +1,23 @@
+stages:
+  - lint
+  - deploy
+
+lint:
+    stage: lint
+    image: node:20
+    script:
+        - npm ci --include=dev
+        - npm run check
+
+pages:
+    stage: deploy
+    image: node:20
+    script:
+        - npm ci --include=dev
+        - npm run build
+        - mv public/ public_html/
+    artifacts:
+        paths:
+            - dist
+    only:
+        - main
