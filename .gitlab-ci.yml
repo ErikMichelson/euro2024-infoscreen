@@ -16,8 +16,9 @@ pages:
         - npm ci --include=dev
         - npm run build
         - mv public/ public_html/
+        - mv dist/ public/
     artifacts:
         paths:
-            - dist
+            - public
     only:
         - main
