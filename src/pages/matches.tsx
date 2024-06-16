@@ -3,9 +3,12 @@ import { useContext, useMemo } from 'react'
 import { MatchDisplay } from '../components/match-display.tsx'
 import { DataContext } from '../context/data-context.ts'
 
-const maxUpcomingMatches = 4
+const maxUpcomingMatches = 3
 const maxFinishedMatches = 3
 
+/**
+ * Displays the upcoming and finished matches.
+ */
 export const Matches: React.FC = () => {
   const dataContext = useContext(DataContext)
   const selectedMatches = useMemo(() => {
