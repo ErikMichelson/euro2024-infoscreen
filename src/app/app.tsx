@@ -32,7 +32,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.info('Updating data from API')
+      console.info('Updating data from API', new Date())
       const response = await fetch(apiUrl)
       const data = await response.json()
       if (response.ok) {
@@ -68,7 +68,6 @@ export const App: React.FC = () => {
           now.getTime() < match.startDate.getTime() + 105 * 60 * 1000
         )
       })
-      console.debug('Match running:', matchRunning)
       setMatchRunning(matchRunning)
     }
     checkIfMatchRunning()
