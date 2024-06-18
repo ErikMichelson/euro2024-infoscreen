@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "uefa-api": "^1.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.1",
