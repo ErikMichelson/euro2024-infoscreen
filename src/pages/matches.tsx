@@ -18,7 +18,7 @@ export const Matches: React.FC = () => {
     const matches = []
     const finishedMatches = []
     for (const match of dataContext.matches) {
-      if (match.finished) {
+      if (match.fullTimeAt) {
         finishedMatches.push(match)
         continue
       }

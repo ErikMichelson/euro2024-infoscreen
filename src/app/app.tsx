@@ -1,22 +1,19 @@
 import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
+import { type Livescore, getLivescore, getMatches } from 'uefa-api'
 import { DataContext, type DataContextType } from '../context/data-context.ts'
 import { BasePage } from '../layout/base-page.tsx'
 import { Groups } from '../pages/groups.tsx'
 import { Matches } from '../pages/matches.tsx'
-import { parseMatchesApiResponse } from './parse-matches-api-response.ts'
 
-// const maxPage = 2
-const apiUrl = 'https://api.openligadb.de/getmatchdata/em/2024'
 const titles = ['Aktuelle Spiele', 'Gruppen']
 
 export const App: React.FC = () => {
   const [page] = useState(0)
   const [data, setData] = useState<DataContextType | null>(null)
-  const [matchRunning, setMatchRunning] = useState(false)
   // const timerRefPages = useRef<number | null>(null)
   const timerRefRefresh = useRef<number | null>(null)
-  const timerRefMatchRunning = useRef<number | null>(null)
+  const timerRefLivescores = useRef<number | null>(null)
 
   // useEffect(() => {
   //   const switchPage = () => {
@@ -33,54 +30,51 @@ export const App: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       console.info('Updating data from API', new Date())
-      const response = await fetch(apiUrl)
-      const data = await response.json()
-      if (response.ok) {
-        setData({
-          matches: parseMatchesApiResponse(data)
-        })
-      }
+      const matches = await getMatches(
+        { competitionId: 3, seasonYear: 2024 },
+        // @ts-ignore
+        'DESC',
+        51,
+        0
+      )
+      matches.reverse()
+      setData((prev) => ({
+        ...prev,
+        matches,
+        liveScores: prev?.liveScores || []
+      }))
     }
     fetchData().catch(console.error)
     timerRefRefresh.current = window.setInterval(
       async () => {
         fetchData().catch(console.error)
       },
-      matchRunning ? 3 * 60 * 1000 : 120 * 60 * 1000
+      15 * 60 * 1000
     )
     return () => {
       if (timerRefRefresh.current) {
         window.clearInterval(timerRefRefresh.current)
       }
     }
-  }, [matchRunning])
+  }, [])
 
   useEffect(() => {
-    const checkIfMatchRunning = () => {
-      if (!data) {
-        return
-      }
-      const now = new Date()
-      const matchRunning = data.matches.some((match) => {
-        return (
-          match.startDate < now &&
-          !match.finished &&
-          now.getTime() < match.startDate.getTime() + 105 * 60 * 1000
-        )
-      })
-      setMatchRunning(matchRunning)
+    const fetchLivescores = async () => {
+      const scores = (await getLivescore()) as unknown as Livescore[]
+      setData((prev) => ({
+        ...prev,
+        matches: prev?.matches || [],
+        liveScores: scores
+      }))
     }
-    checkIfMatchRunning()
-    timerRefMatchRunning.current = window.setInterval(
-      checkIfMatchRunning,
-      60 * 1000
-    )
+    fetchLivescores().catch(console.error)
+    timerRefLivescores.current = window.setInterval(fetchLivescores, 120 * 1000)
     return () => {
-      if (timerRefMatchRunning.current) {
-        window.clearInterval(timerRefMatchRunning.current)
+      if (timerRefLivescores.current) {
+        window.clearInterval(timerRefLivescores.current)
       }
     }
-  }, [data])
+  }, [])
 
   return (
     <DataContext.Provider value={data}>
