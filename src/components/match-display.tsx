@@ -34,7 +34,7 @@ export const MatchDisplay: React.FC<MatchDisplayProps> = ({ match }) => {
         </div>
         <div className={'text-center'}>
           <span
-            className={`text-4xl font-semibold inline-block mx-2 ${match.status === 'LIVE' ? 'text-emerald-500' : ''} ${match.winner?.match.team?.id === match.homeTeam.id ? 'text-amber-300' : ''}`}
+            className={`text-4xl font-semibold inline-block mx-2 ${matchingLivescore?.status === 'LIVE' ? 'text-emerald-500' : ''} ${match.winner?.match.team?.id === match.homeTeam.id ? 'text-amber-300' : ''}`}
           >
             {matchingLivescore?.score?.total.home ??
               match.score?.total.home ??
@@ -42,7 +42,7 @@ export const MatchDisplay: React.FC<MatchDisplayProps> = ({ match }) => {
           </span>
           <span className='text-4xl font-semibold inline-block mx-2'>:</span>
           <span
-            className={`text-4xl font-semibold inline-block mx-2 ${match.status === 'LIVE' ? 'text-emerald-500' : ''} ${match.winner?.match.team?.id === match.awayTeam.id ? 'text-amber-300' : ''}`}
+            className={`text-4xl font-semibold inline-block mx-2 ${matchingLivescore?.status === 'LIVE' ? 'text-emerald-500' : ''} ${match.winner?.match.team?.id === match.awayTeam.id ? 'text-amber-300' : ''}`}
           >
             {matchingLivescore?.score?.total.away ??
               match.score?.total.away ??
