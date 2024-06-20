@@ -60,6 +60,19 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     const fetchLivescores = async () => {
+      const needsRefresh =
+        !data?.liveScores ||
+        data.liveScores.length === 0 ||
+        data?.liveScores.some(
+          (match) =>
+            (match.status === 'UPCOMING' &&
+              match.lineupStatus === 'TACTICAL_AVAILABLE') ||
+            match.status === 'LIVE'
+        )
+      if (!needsRefresh) {
+        console.debug('No refresh needed')
+        return
+      }
       const scores = (await getLivescore()) as unknown as Livescore[]
       setData((prev) => ({
         ...prev,
@@ -74,7 +87,7 @@ export const App: React.FC = () => {
         window.clearInterval(timerRefLivescores.current)
       }
     }
-  }, [])
+  }, [data?.liveScores])
 
   return (
     <DataContext.Provider value={data}>

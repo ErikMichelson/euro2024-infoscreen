@@ -19,7 +19,7 @@ export const BasePage: React.FC<PropsWithChildren<BasePageProps>> = ({
         <img src={'/images/euro2024.svg'} alt='Euro 2024 Logo' />
       </div>
       {title && (
-        <h1 className={'text-5xl font-semibold text-center mb-7'}>{title}</h1>
+        <h1 className={'text-4xl font-semibold text-center mb-5'}>{title}</h1>
       )}
       {children}
     </main>
