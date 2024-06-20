@@ -66,9 +66,9 @@ export const useUpdateData = () => {
     }))
   }, [])
 
-  useAsyncInterval(15 * 60 * 1000, updateMatches)
-  useAsyncInterval(120 * 1000, updateLivescores)
-  useAsyncInterval(30 * 3600 * 1000, updateStandings)
+  useAsyncInterval(15 * 60 * 1000, updateMatches) // Update matches every 15 minutes
+  useAsyncInterval(120 * 1000, updateLivescores) // Update livescores every 2 minutes if a match is (soon) live
+  useAsyncInterval(30 * 60 * 1000, updateStandings) // Update standings every 30 minutes
 
   return { data }
 }
