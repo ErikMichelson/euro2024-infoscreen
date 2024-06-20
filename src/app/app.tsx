@@ -1,6 +1,11 @@
 import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { type Livescore, getLivescore, getMatches } from 'uefa-api'
+import {
+  type Livescore,
+  getLivescore,
+  getMatches,
+  getStandings
+} from 'uefa-api'
 import { DataContext, type DataContextType } from '../context/data-context.ts'
 import { BasePage } from '../layout/base-page.tsx'
 import { Groups } from '../pages/groups.tsx'
@@ -9,23 +14,24 @@ import { Matches } from '../pages/matches.tsx'
 const titles = ['Aktuelle Spiele', 'Gruppen']
 
 export const App: React.FC = () => {
-  const [page] = useState(0)
+  const [page, setPage] = useState(0)
   const [data, setData] = useState<DataContextType | null>(null)
-  // const timerRefPages = useRef<number | null>(null)
+  const timerRefPages = useRef<number | null>(null)
   const timerRefRefresh = useRef<number | null>(null)
   const timerRefLivescores = useRef<number | null>(null)
+  const timerRefGroups = useRef<number | null>(null)
 
-  // useEffect(() => {
-  //   const switchPage = () => {
-  //     setPage((current) => (current + 1) % maxPage)
-  //   }
-  //   timerRefPages.current = window.setInterval(switchPage, 15000)
-  //   return () => {
-  //     if (timerRefPages.current) {
-  //       window.clearInterval(timerRefPages.current)
-  //     }
-  //   }
-  // }, [])
+  useEffect(() => {
+    const switchPage = () => {
+      setPage((current) => (current + 1) % titles.length)
+    }
+    timerRefPages.current = window.setInterval(switchPage, 15 * 1000)
+    return () => {
+      if (timerRefPages.current) {
+        window.clearInterval(timerRefPages.current)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,8 +46,9 @@ export const App: React.FC = () => {
       matches.reverse()
       setData((prev) => ({
         ...prev,
-        matches,
-        liveScores: prev?.liveScores || []
+        liveScores: prev?.liveScores || [],
+        standings: prev?.standings || [],
+        matches
       }))
     }
     fetchData().catch(console.error)
@@ -77,6 +84,7 @@ export const App: React.FC = () => {
       setData((prev) => ({
         ...prev,
         matches: prev?.matches || [],
+        standings: prev?.standings || [],
         liveScores: scores
       }))
     }
@@ -88,6 +96,34 @@ export const App: React.FC = () => {
       }
     }
   }, [data?.liveScores])
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      console.info('Updating groups data from API', new Date())
+      const standings = await getStandings({
+        competitionId: 3,
+        seasonYear: 2024
+      })
+      setData((prev) => ({
+        ...prev,
+        matches: prev?.matches || [],
+        liveScores: prev?.liveScores || [],
+        standings
+      }))
+    }
+    fetchGroups().catch(console.error)
+    timerRefGroups.current = window.setInterval(
+      async () => {
+        fetchGroups().catch(console.error)
+      },
+      30 * 3600 * 1000
+    )
+    return () => {
+      if (timerRefGroups.current) {
+        window.clearInterval(timerRefGroups.current)
+      }
+    }
+  }, [])
 
   return (
     <DataContext.Provider value={data}>

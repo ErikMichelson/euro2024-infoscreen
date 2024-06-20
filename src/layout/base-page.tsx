@@ -12,7 +12,7 @@ export const BasePage: React.FC<PropsWithChildren<BasePageProps>> = ({
   return (
     <main
       className={
-        'container mx-auto px-4 backdrop-blur-xl text-white backdrop-brightness-75'
+        'container mx-auto px-4 backdrop-blur-xl text-white backdrop-brightness-75 min-h-screen'
       }
     >
       <div className={'max-w-80 mx-auto py-9'}>

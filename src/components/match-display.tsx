@@ -18,7 +18,7 @@ export const MatchDisplay: React.FC<MatchDisplayProps> = ({ match }) => {
   }, [data?.liveScores, match.id])
 
   return (
-    <div className='flex flex-col items-center justify-center p-4 shadow-xl my-5 gap-3'>
+    <div className='flex flex-col items-center justify-center p-4 gap-3 w-96 bg-blue-950 bg-opacity-50 border-2 border-blue-800'>
       <div className='flex items-center justify-center space-x-4 gap-3'>
         <div className={'text-center'}>
           <img

@@ -45,5 +45,9 @@ export const Matches: React.FC = () => {
     ))
   }, [selectedMatches])
 
-  return matchElements
+  return (
+    <div className={'flex flex-row flex-wrap justify-center gap-3'}>
+      {matchElements}
+    </div>
+  )
 }
