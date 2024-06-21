@@ -1,10 +1,18 @@
 {
-  "name": "euro24-infoscreen",
   "private": true,
-  "version": "0.0.0",
+  "name": "euro24-infoscreen",
+  "version": "1.0.0",
+  "description": "Auto-refreshing Infoscreen for results of the UEFA Euro 2024",
+  "author": {
+    "name": "Erik Michelson",
+    "email": "opensource@erik.michelson.eu",
+    "url": "https://erik.michelson.eu"
+  },
+  "homepage": "https://euro24-infoscreen.emcrx.de",
+  "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
+    "dev": "vite",
     "build": "vite build",
     "check": "biome check src/ *.json",
     "fix": "biome check --write src/ *.json"
