@@ -1,12 +1,18 @@
 import { useCallback, useState } from 'react'
 import {
   type Livescore,
+  type Match,
   getLivescore,
   getMatches,
   getStandings
 } from 'uefa-api'
 import { useAsyncInterval } from '../utils/use-async-interval.ts'
 import type { DataContextType } from './data-context'
+
+const isMatchSoonLive = (match: Match | Livescore): boolean =>
+  (match.status === 'UPCOMING' &&
+    match.lineupStatus === 'TACTICAL_AVAILABLE') ||
+  match.status === 'LIVE'
 
 export const useUpdateData = () => {
   const [data, setData] = useState<DataContextType | null>(null)
@@ -33,12 +39,8 @@ export const useUpdateData = () => {
     const needsRefresh =
       !data?.liveScores ||
       data.liveScores.length === 0 ||
-      data?.liveScores.some(
-        (match) =>
-          (match.status === 'UPCOMING' &&
-            match.lineupStatus === 'TACTICAL_AVAILABLE') ||
-          match.status === 'LIVE'
-      )
+      data?.liveScores.some(isMatchSoonLive) ||
+      data.matches.some(isMatchSoonLive)
     if (!needsRefresh) {
       console.debug('No refresh needed')
       return
@@ -50,7 +52,7 @@ export const useUpdateData = () => {
       standings: prev?.standings || [],
       liveScores: scores
     }))
-  }, [data?.liveScores])
+  }, [data?.liveScores, data?.matches])
 
   const updateStandings = useCallback(async () => {
     console.info('Updating groups data from API', new Date())
