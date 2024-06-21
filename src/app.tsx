@@ -1,10 +1,10 @@
 import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { DataContext } from '../context/data-context.ts'
-import { useUpdateData } from '../context/use-update-data.ts'
-import { BasePage } from '../layout/base-page.tsx'
-import { Groups } from '../pages/groups.tsx'
-import { Matches } from '../pages/matches.tsx'
+import { DataContext } from './data/data-context.ts'
+import { useUpdateData } from './data/use-update-data.ts'
+import { BasePage } from './layout/base-page.tsx'
+import { Groups } from './pages/groups.tsx'
+import { Matches } from './pages/matches.tsx'
 
 const titles = ['Aktuelle Spiele', 'Gruppen']
 

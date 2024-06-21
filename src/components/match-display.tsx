@@ -2,7 +2,7 @@ import type React from 'react'
 import { Fragment } from 'react'
 import { useContext, useMemo } from 'react'
 import type { Match } from 'uefa-api'
-import { DataContext } from '../context/data-context.ts'
+import { DataContext } from '../data/data-context.ts'
 
 export interface MatchDisplayProps {
   match: Match

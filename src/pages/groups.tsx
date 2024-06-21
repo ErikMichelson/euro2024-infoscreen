@@ -1,6 +1,6 @@
 import type React from 'react'
 import { useContext, useMemo } from 'react'
-import { DataContext } from '../context/data-context.ts'
+import { DataContext } from '../data/data-context.ts'
 
 export const Groups: React.FC = () => {
   const data = useContext(DataContext)

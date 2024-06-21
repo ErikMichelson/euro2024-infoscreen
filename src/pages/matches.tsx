@@ -1,7 +1,7 @@
 import type React from 'react'
 import { useContext, useMemo } from 'react'
 import { MatchDisplay } from '../components/match-display.tsx'
-import { DataContext } from '../context/data-context.ts'
+import { DataContext } from '../data/data-context.ts'
 
 const maxUpcomingMatches = 3
 const maxFinishedMatches = 3
