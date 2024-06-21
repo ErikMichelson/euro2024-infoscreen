@@ -5,6 +5,8 @@ import { useUpdateData } from './data/use-update-data.ts'
 import { BasePage } from './layout/base-page.tsx'
 import { Groups } from './pages/groups.tsx'
 import { Matches } from './pages/matches.tsx'
+import { autoUpdate } from './utils/auto-update.ts'
+import { useAsyncInterval } from './utils/use-async-interval.ts'
 
 const titles = ['Aktuelle Spiele', 'Gruppen']
 
@@ -13,6 +15,8 @@ export const App: React.FC = () => {
   const timerRefPages = useRef<number | null>(null)
 
   const { data } = useUpdateData()
+
+  useAsyncInterval(3600 * 1000, autoUpdate)
 
   useEffect(() => {
     const switchPage = () => {
