@@ -8,7 +8,10 @@
     "email": "opensource@erik.michelson.eu",
     "url": "https://erik.michelson.eu"
   },
-  "homepage": "https://euro24-infoscreen.emcrx.de",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ErikMichelson/euro2024-infoscreen.git"
+  },
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -20,7 +23,7 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "uefa-api": "^1.0.1"
+    "uefa-api": "^1.0.2"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.1",
