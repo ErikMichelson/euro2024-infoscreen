@@ -5,8 +5,6 @@
 Infobildschirm Web-App zur Anzeige von aktuellen Spielen und Ergebnissen der UEFA EURO 2024.
 Die Daten werden von der offiziellen UEFA API bezogen.
 
-**Live:** https://euro24-infoscreen.emcrx.de/
-
 ## Build
 1. `npm install`
 2. `npm run build`
